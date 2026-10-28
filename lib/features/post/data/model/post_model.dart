@@ -1,7 +1,7 @@
 import 'package:bloc_practice/features/post/domain/entities/post_entity.dart';
 
 class PostModel extends PostEntity {
-  PostModel({
+  const PostModel({
     required super.id,
     required super.userId,
     required super.title,

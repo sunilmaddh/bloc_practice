@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc_practice/features/products/persentation/bloc/product_bloc.dart';
 import 'package:bloc_practice/features/products/persentation/bloc/product_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
