@@ -90,12 +90,28 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final groupChat = groupMessage(chatList);
+    final groups = groupChat.entries.toList();
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            // for (var group in groupChat.entries)
-            //   SliverPersistentHeader(delegate: Dele),
+            for (var group in groups) ...[
+              SliverPersistentHeader(
+                delegate: DelegateStickyHeader(title: group.key),
+              ),
+
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  var message = group.value[index];
+                  return Align(
+                    alignment: message.isMe
+                        ? Alignment.centerLeft
+                        : Alignment.centerRight,
+                    child: Text(message.message),
+                  );
+                }),
+              ),
+            ],
           ],
         ),
 
@@ -120,5 +136,35 @@ class ChatScreen extends StatelessWidget {
         // ),
       ),
     );
+  }
+}
+
+class DelegateStickyHeader extends SliverPersistentHeaderDelegate {
+  DelegateStickyHeader({required this.title});
+  final String? title;
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.greenAccent,
+      ),
+      child: Text(title ?? ""),
+    );
+  }
+
+  @override
+  double get maxExtent => 43;
+
+  @override
+  double get minExtent => 43;
+
+  @override
+  bool shouldRebuild(covariant DelegateStickyHeader oldDelegate) {
+    return oldDelegate.title != title;
   }
 }
